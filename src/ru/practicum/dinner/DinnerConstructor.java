@@ -1,20 +1,24 @@
 package ru.practicum.dinner;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DinnerConstructor {
 
+    private ArrayList<String> categories;
+    private  ArrayList<ArrayList<String>> combos;
 
-    boolean setType(String type) {
-        return false;
+    public void addCategory(String name) {
+        name = StringReader.toNameFormat(name);
+        if (!categories.contains(name)) {
+            categories.add(name);
+        }
     }
 
-    boolean checkType(String type) {
-        return false;
+    void generateCombos(MenuBuilder menu, int count) {
+
     }
 
-    boolean addDish(String dish) {
-        return false;
+    public ArrayList<ArrayList<String>> getCombos() {
+        return combos;
     }
 }

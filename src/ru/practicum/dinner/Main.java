@@ -6,9 +6,10 @@ public class Main {
 
     static DinnerConstructor dc;
     static Scanner scanner;
-    static MenuBuilder menu = new MenuBuilder();
+    static MenuBuilder menu;
 
     public static void main(String[] args) {
+        menu = new MenuBuilder();
         dc = new DinnerConstructor();
         scanner = new Scanner(System.in);
 
@@ -53,22 +54,29 @@ public class Main {
 
         // добавьте новое блюдо
         menu.addDish(dishType, dishName);
-        System.out.println("Блюдо добавлено");
+        System.out.println("Блюдо \"" + dishName + "\" добавлено в категорию " + "\"" + dishName + "\"");
     }
 
     private static void generateDishCombo() {
         System.out.println("Начинаем конструировать обед...");
 
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
-        int numberOfCombos = scanner.nextInt();
-        scanner.nextLine();
+        String inputData = scanner.nextLine();
+        int numberOfCombos = StringReader.getPositiveInt(inputData);
+        if (numberOfCombos < 1) {
+            System.out.println("введено неверное значение - " + inputData);
+            return;
+        }
 
         System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
+        System.out.println(menu.getMenu().keySet());
         String nextItem = scanner.nextLine();
 
         //реализуйте ввод типов блюд
         while (!nextItem.isEmpty()) {
-
+            if (menu.hasCategory(nextItem)) {
+                dc.addCategory(nextItem);
+            }
         }
 
         // сгенерируйте комбинации блюд и выведите на экран
