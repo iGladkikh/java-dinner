@@ -69,7 +69,7 @@ public class Main {
         }
 
         System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
-        System.out.println(menu.getMenu().keySet());
+        System.out.println("допустимые варианты - " + menu.getCategories());
         String nextItem = scanner.nextLine();
 
         //реализуйте ввод типов блюд

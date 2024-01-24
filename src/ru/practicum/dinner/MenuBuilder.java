@@ -2,6 +2,7 @@ package ru.practicum.dinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class MenuBuilder {
 
@@ -21,10 +22,15 @@ public class MenuBuilder {
         return menu;
     }
 
-    boolean hasCategory(String category) {
+    public boolean hasCategory(String category) {
         category = StringReader.toNameFormat(category);
         return menu.containsKey(category);
     }
+
+    public Set<String> getCategories() {
+        return menu.keySet();
+    }
+
 
     boolean hasDish(String name) {
         for (ArrayList<String> names : menu.values()) {
