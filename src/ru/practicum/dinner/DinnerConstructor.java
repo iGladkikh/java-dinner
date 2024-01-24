@@ -14,7 +14,7 @@ public class DinnerConstructor {
         }
     }
 
-    void generateCombos(MenuBuilder menu, int count) {
+    public void generateCombos(MenuBuilder menu, int count) {
 
     }
 
