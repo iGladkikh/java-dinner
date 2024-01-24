@@ -4,23 +4,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MenuBuilder {
-    private static final HashMap<String, ArrayList<Dish>> menu = new HashMap<>();
+    private static HashMap<String, ArrayList<String>> menu;
 
     MenuBuilder() {
+        menu = new HashMap<>();
         String[] DISH_CATEGORY = {"Первое", "Второе", "Напиток"};
         for (String category : DISH_CATEGORY) {
-            menu.put(category, new ArrayList<>());
+            menu.put(category.toLowerCase(), new ArrayList<>());
         }
     }
 
     static boolean hasCategory(String category) {
-        return menu.containsKey(category);
+        return menu.containsKey(category.toLowerCase());
     }
 
     static boolean hasDish(String name) {
-        for (ArrayList<Dish> dishList : menu.values()) {
-            for (Dish item : dishList) {
-                if (name.equalsIgnoreCase(item.getName())) {
+        for (ArrayList<String> names : menu.values()) {
+            for (String item : names) {
+                if (name.equalsIgnoreCase(item)) {
                     return true;
                 }
             }
@@ -28,12 +29,7 @@ public class MenuBuilder {
         return false;
     }
 
-    static boolean hasDish(Dish dish) {
-        String name = dish.getName();
-        return hasDish(name);
-    }
-
-    static void addDish(String category, Dish dish) {
-        menu.get(category).add(dish);
+    static void addDish(String category, String name) {
+        menu.get(category).add(name);
     }
 }

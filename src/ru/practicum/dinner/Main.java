@@ -6,6 +6,7 @@ public class Main {
 
     static DinnerConstructor dc;
     static Scanner scanner;
+    static MenuBuilder menu = new MenuBuilder();
 
     public static void main(String[] args) {
         dc = new DinnerConstructor();
@@ -38,10 +39,21 @@ public class Main {
     private static void addNewDish() {
         System.out.println("Введите тип блюда:");
         String dishType = scanner.nextLine();
+        if (!menu.hasCategory(dishType)) {
+            System.out.println("Тип блюда \"" + dishType + "\" отсутствует");
+            return;
+        }
+
         System.out.println("Введите название блюда:");
         String dishName = scanner.nextLine();
+        if (menu.hasDish(dishName)) {
+            System.out.println("Блюдо \"" + dishName + "\" уже содержится в списке");
+            return;
+        }
 
         // добавьте новое блюдо
+        menu.addDish(dishType, dishName);
+        System.out.println("Блюдо добавлено");
     }
 
     private static void generateDishCombo() {
