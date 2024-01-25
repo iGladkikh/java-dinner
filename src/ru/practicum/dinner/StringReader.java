@@ -3,18 +3,10 @@ package ru.practicum.dinner;
 public class StringReader {
 
     public static String toNameFormat(String input) {
-        if (!input.isEmpty()) {
-            return Character.toUpperCase(input.charAt(0)) + input.toLowerCase().substring(1);
+        if (input.isEmpty()) {
+            return "";
         }
-        return "";
-    }
-
-    public static int getInt(String input) {
-        try {
-            return Integer.parseInt(input);
-        } catch (Exception e) {
-            return 0;
-        }
+        return Character.toUpperCase(input.charAt(0)) + input.toLowerCase().substring(1);
     }
 
     public static boolean isPositiveNumber(String input) {
@@ -23,7 +15,8 @@ public class StringReader {
             if (Integer.parseInt(input) > 0) {
                 return true;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return result;
     }
 }

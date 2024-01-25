@@ -23,7 +23,16 @@ public class Main {
                     addNewDish();
                     break;
                 case "2":
+                    if (menuBuilder.getMenu().isEmpty()) {
+                        System.out.println("Меню пусто. Добавьте новые блюда");
+                        break;
+                    }
                     generateDishCombos();
+
+                    if (dinnerConstructor.getCategories().isEmpty()) {
+                        System.out.println("Не выбраны типы блюда");
+                        break;
+                    }
                     printDishCombos();
                     break;
                 case "3":
@@ -45,14 +54,17 @@ public class Main {
 
         System.out.println("Введите название блюда:");
         String dishName = scanner.nextLine();
+
         if (menuBuilder.hasDish(dishName)) {
             System.out.println("Блюдо \"" + dishName + "\" уже содержится в списке");
             return;
         }
 
-        // добавьте новое блюдо
-        menuBuilder.addDish(dishType, dishName);
-        System.out.println("Блюдо \"" + dishName + "\" добавлено в категорию " + "\"" + dishType + "\"");
+        if (menuBuilder.addDish(dishType, dishName)) {
+            System.out.println("Блюдо \"" + dishName + "\" добавлено в категорию " + "\"" + dishType + "\"");
+        } else {
+            System.out.println("Ошибка добавления блюда \"" + dishName + "\"");
+        }
     }
 
     private static void generateDishCombos() {
@@ -65,7 +77,8 @@ public class Main {
                 : getPositiveNumber(line);
         dinnerConstructor.setCombosCount(combosCount);
 
-        System.out.println("Введите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
+        System.out.println("Введите типы блюда, разделяя символом переноса строки (enter)."
+                + "Для завершения ввода введите пустую строку");
         System.out.println("допустимые варианты - " + menuBuilder.getCategories());
 
         dinnerConstructor.clearCategories();
@@ -84,6 +97,7 @@ public class Main {
     }
 
     private static void printDishCombos() {
+        System.out.println("Выбранные типы блюд: " + dinnerConstructor.getCategories() + "\n");
         ArrayList<ArrayList<String>> combos = dinnerConstructor.getCombos();
         int i = 1;
         for (ArrayList<String> combo : combos) {

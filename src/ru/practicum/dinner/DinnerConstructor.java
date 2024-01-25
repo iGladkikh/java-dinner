@@ -2,21 +2,18 @@ package ru.practicum.dinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 public class DinnerConstructor {
 
     int combosCount;
     private ArrayList<String> categories;
-    private  ArrayList<ArrayList<String>> combos;
+    private ArrayList<ArrayList<String>> combos;
 
     {
         combosCount = 0;
         categories = new ArrayList<>();
         combos = new ArrayList<>();
-
-        categories.addAll(List.of(new String[]{"Первое", "Второе", "напиток"}));
     }
 
     public void setCombosCount(int combosCount) {
@@ -26,15 +23,19 @@ public class DinnerConstructor {
         this.combosCount = combosCount;
     }
 
+    public ArrayList<String> getCategories() {
+        return categories;
+    }
+
     public ArrayList<ArrayList<String>> getCombos() {
         return combos;
     }
 
-    public boolean addCategory(String name) {
+    public void addCategory(String name) {
         if (name.isEmpty()) {
-            return false;
+            return;
         }
-        return categories.add(StringReader.toNameFormat(name));
+        categories.add(StringReader.toNameFormat(name));
     }
 
     public void generateCombos(HashMap<String, ArrayList<String>> menu) {
