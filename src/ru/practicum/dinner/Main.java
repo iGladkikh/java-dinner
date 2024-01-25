@@ -1,16 +1,17 @@
 package ru.practicum.dinner;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
-    static DinnerConstructor dc;
     static Scanner scanner;
-    static MenuBuilder menu;
+    static MenuBuilder menuBuilder;
+    static DinnerConstructor dinnerConstructor;
 
     public static void main(String[] args) {
-        menu = new MenuBuilder();
-        dc = new DinnerConstructor();
+        menuBuilder = new MenuBuilder();
+        dinnerConstructor = new DinnerConstructor();
         scanner = new Scanner(System.in);
 
         while (true) {
@@ -22,7 +23,8 @@ public class Main {
                     addNewDish();
                     break;
                 case "2":
-                    generateDishCombo();
+                    generateDishCombos();
+                    printDishCombos();
                     break;
                 case "3":
                     return;
@@ -40,46 +42,75 @@ public class Main {
     private static void addNewDish() {
         System.out.println("Введите тип блюда:");
         String dishType = scanner.nextLine();
-        if (!menu.hasCategory(dishType)) {
-            System.out.println("Тип блюда \"" + dishType + "\" отсутствует");
-            return;
-        }
 
         System.out.println("Введите название блюда:");
         String dishName = scanner.nextLine();
-        if (menu.hasDish(dishName)) {
+        if (menuBuilder.hasDish(dishName)) {
             System.out.println("Блюдо \"" + dishName + "\" уже содержится в списке");
             return;
         }
 
         // добавьте новое блюдо
-        menu.addDish(dishType, dishName);
-        System.out.println("Блюдо \"" + dishName + "\" добавлено в категорию " + "\"" + dishName + "\"");
+        menuBuilder.addDish(dishType, dishName);
+        System.out.println("Блюдо \"" + dishName + "\" добавлено в категорию " + "\"" + dishType + "\"");
     }
 
-    private static void generateDishCombo() {
+    private static void generateDishCombos() {
         System.out.println("Начинаем конструировать обед...");
 
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
-        String inputData = scanner.nextLine();
-        int numberOfCombos = StringReader.getPositiveInt(inputData);
-        if (numberOfCombos < 1) {
-            System.out.println("введено неверное значение - " + inputData);
-            return;
-        }
+        String line = scanner.nextLine();
+        int combosCount = StringReader.isPositiveNumber(line)
+                ? Integer.parseInt(line)
+                : getPositiveNumber(line);
+        dinnerConstructor.setCombosCount(combosCount);
 
-        System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
-        System.out.println("допустимые варианты - " + menu.getCategories());
-        String nextItem = scanner.nextLine();
+        System.out.println("Введите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
+        System.out.println("допустимые варианты - " + menuBuilder.getCategories());
 
-        //реализуйте ввод типов блюд
-        while (!nextItem.isEmpty()) {
-            if (menu.hasCategory(nextItem)) {
-                dc.addCategory(nextItem);
+        dinnerConstructor.clearCategories();
+        while (true) {
+            String category = scanner.nextLine();
+            if (!menuBuilder.hasCategory(category)) {
+                category = getCorrectDishCategory(category);
             }
+            if (category.isEmpty()) {
+                break;
+            }
+            dinnerConstructor.addCategory(category);
         }
 
-        // сгенерируйте комбинации блюд и выведите на экран
+        dinnerConstructor.generateCombos(menuBuilder.getMenu());
+    }
 
+    private static void printDishCombos() {
+        ArrayList<ArrayList<String>> combos = dinnerConstructor.getCombos();
+        int i = 1;
+        for (ArrayList<String> combo : combos) {
+            System.out.println("Комбо " + (i++));
+            System.out.println(combo);
+        }
+    }
+
+    private static String getCorrectDishCategory(String value) {
+        while (value.isEmpty() || !menuBuilder.hasCategory(value)) {
+            if (value.isEmpty()) {
+                return "";
+            }
+
+            System.out.println("Введено неверное значение - " + value);
+            System.out.println("Введите корректное значение типа блюда");
+            value = scanner.nextLine();
+        }
+        return value;
+    }
+
+    private static int getPositiveNumber(String value) {
+        while (!StringReader.isPositiveNumber(value)) {
+            System.out.println("Введено неверное значение - " + value);
+            System.out.println("Введите положительное число");
+            value = scanner.nextLine();
+        }
+        return Integer.parseInt(value);
     }
 }
