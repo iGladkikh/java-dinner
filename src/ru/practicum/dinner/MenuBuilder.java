@@ -32,7 +32,7 @@ public class MenuBuilder {
     }
 
     public boolean hasCategory(String category) {
-        category = StringReader.toNameFormat(category);
+        category = Main.toNameFormat(category);
         return menu.containsKey(category);
     }
 
@@ -41,8 +41,8 @@ public class MenuBuilder {
             return false;
         }
 
-        category = StringReader.toNameFormat(category);
-        name = StringReader.toNameFormat(name);
+        category = Main.toNameFormat(category);
+        name = Main.toNameFormat(name);
         if (!menu.containsKey(category)) {
             menu.put(category, new ArrayList<>());
         }

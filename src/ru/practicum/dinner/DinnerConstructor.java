@@ -35,7 +35,7 @@ public class DinnerConstructor {
         if (name.isEmpty()) {
             return;
         }
-        categories.add(StringReader.toNameFormat(name));
+        categories.add(Main.toNameFormat(name));
     }
 
     public void generateCombos(HashMap<String, ArrayList<String>> menu) {

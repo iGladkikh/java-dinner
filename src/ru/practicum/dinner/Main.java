@@ -72,7 +72,7 @@ public class Main {
 
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
         String line = scanner.nextLine();
-        int combosCount = StringReader.isPositiveNumber(line)
+        int combosCount = isPositiveNumber(line)
                 ? Integer.parseInt(line)
                 : getPositiveNumber(line);
         dinnerConstructor.setCombosCount(combosCount);
@@ -87,7 +87,7 @@ public class Main {
             if (!menuBuilder.hasCategory(category)) {
                 category = getCorrectDishCategory(category);
             }
-            if (category.isEmpty()) {
+            if (category.isEmpty()) { // Блок не поставлен сразу после 86, тк из 88 может вернуться пустая строка.
                 break;
             }
             dinnerConstructor.addCategory(category);
@@ -119,12 +119,35 @@ public class Main {
         return value;
     }
 
-    private static int getPositiveNumber(String value) {
-        while (!StringReader.isPositiveNumber(value)) {
+    public static boolean isPositiveNumber(String value) {
+        boolean result = false;
+        try {
+            if (Integer.parseInt(value) > 0) {
+                return true;
+            }
+        } catch (Exception e) {
             System.out.println("Введено неверное значение - " + value);
+        }
+        return result;
+    }
+
+    private static int getPositiveNumber(String value) {
+        while (!isPositiveNumber(value)) {
             System.out.println("Введите положительное число");
             value = scanner.nextLine();
         }
         return Integer.parseInt(value);
+    }
+
+
+    /**
+     * Для приведения текста (введенных типов и названий блюд) формату:
+     * Первая буква прописная, остальные — строчные (суп -> Суп, ЧАЙ -> Чай).
+     */
+    public static String toNameFormat(String input) { //
+        if (input.isEmpty()) {
+            return "";
+        }
+        return Character.toUpperCase(input.charAt(0)) + input.toLowerCase().substring(1);
     }
 }
